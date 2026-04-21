@@ -4,7 +4,8 @@
   "description": "Instagram card news generator using HTML/CSS + WebGL shaders, captured as PNG via Playwright. Usable as a Claude Code skill.",
   "scripts": {
     "install-skill": "bash install.sh",
-    "postinstall": "npx playwright install chromium"
+    "postinstall": "npx playwright install chromium",
+    "publish-cards": "node shared/publish.js"
   },
   "keywords": ["cardnews", "instagram", "webgl", "playwright", "claude-code", "skill"],
   "license": "MIT",

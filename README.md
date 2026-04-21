@@ -185,6 +185,153 @@ rm -rf ~/.cardnews-skill
 
 ---
 
+## Instagram 자동 배포
+
+생성된 PNG 카드를 Instagram에 **캐러셀 게시물**(최대 10장)로 자동 업로드하는 기능입니다. 공식 **Instagram Graph API**를 사용합니다.
+
+### 준비 단계 (최초 1회)
+
+Instagram 자동 배포는 다음 4가지가 **모두 필요**합니다. 하나라도 빠지면 API가 동작하지 않습니다.
+
+#### 1. Instagram 계정을 Business/Creator로 전환
+
+- Instagram 앱 → 설정 → 계정 → **"프로페셔널 계정으로 전환"** 선택
+- **개인(Personal) 계정은 API로 게시 불가**
+
+#### 2. Facebook Page 에 Instagram 계정 연결
+
+- https://facebook.com/pages/create 에서 Facebook Page 생성 (없다면)
+- Facebook Page 설정 → **Instagram** → Instagram 계정 연결
+- 연결 확인: https://business.facebook.com/settings/instagram-accounts
+
+#### 3. Meta Developer App 생성 & 권한 설정
+
+1. https://developers.facebook.com/apps 에서 **"Create App"** → Type: **Business**
+2. App 대시보드에서 **"Instagram Graph API"** 제품 추가
+3. App Review → **Permissions** 에서 아래 권한 요청 및 승인:
+   - `instagram_basic`
+   - `instagram_content_publish`
+   - `pages_show_list`
+   - `pages_read_engagement`
+4. **Development Mode** 에서는 앱 소유자 계정에 한해서만 사용 가능 (테스트에는 충분)
+5. 실제 운영은 App Review 제출 → 승인 후 Live Mode
+
+#### 4. Access Token & User ID 발급
+
+**Access Token (장기, 60일 유효):**
+
+1. [Graph API Explorer](https://developers.facebook.com/tools/explorer/) 접속
+2. 상단 App 선택 → **User Token** 생성
+3. 권한 체크: `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_read_engagement`
+4. "Generate Access Token" 클릭 → **Short-lived Token** 복사
+5. [Access Token Debugger](https://developers.facebook.com/tools/debug/accesstoken/) 에서 Token 붙여넣기 → **"Extend Access Token"** 버튼으로 **Long-lived Token (60일)** 로 변환
+6. 이 Long-lived Token을 `IG_ACCESS_TOKEN` 으로 사용
+
+**Instagram User ID 조회:**
+
+Graph API Explorer에서:
+```
+GET /me/accounts
+→ 응답에서 연결된 Page의 id 확인 (예: "123456789")
+
+GET /{page-id}?fields=instagram_business_account
+→ 응답의 instagram_business_account.id 가 IG_USER_ID
+```
+
+#### 5. Imgur Client ID (이미지 호스팅, 무료)
+
+Instagram API는 **퍼블릭 URL에 있는 이미지**만 받습니다. 직접 호스팅이 없다면 Imgur 익명 업로드가 가장 간편합니다.
+
+1. https://api.imgur.com/oauth2/addclient 접속
+2. **"OAuth 2 authorization without a callback URL"** 선택
+3. Application name 입력 → 등록
+4. 발급된 **Client ID** 를 `IMGUR_CLIENT_ID` 로 사용
+
+**대안** — 자체 CDN(S3 / Vercel Blob / Cloudflare R2 등)이 있다면 `IMAGE_BASE_URL` 환경변수로 대체 가능:
+```
+IMAGE_BASE_URL=https://cdn.example.com/cards/20260421_example
+```
+이 경우 `<base>/card-01.png`, `card-02.png` ... 순서로 접근됩니다.
+
+---
+
+### 환경 변수 설정
+
+```bash
+cd ~/.cardnews-skill
+cp .env.example .env
+# .env 파일을 편집기로 열어 실제 값 입력
+vim .env
+```
+
+`.env` 파일 내용:
+```bash
+IG_USER_ID=17841400000000000
+IG_ACCESS_TOKEN=EAAxxxxxxxxxxxxxxxxxxxx
+IMGUR_CLIENT_ID=abc123def456
+```
+
+⚠️ `.env` 파일은 `.gitignore` 에 포함되어 있어 커밋되지 않습니다. **절대 토큰을 공개 저장소에 올리지 마세요.**
+
+---
+
+### 배포 사용법
+
+#### Claude Code 스킬로 (권장)
+
+카드 생성 후 이어서:
+```
+인스타에 올려줘
+```
+
+스킬이 자동으로:
+1. 캡션 초안을 제안하고 사용자 승인을 받음
+2. `shared/publish.js` 실행
+3. 배포 결과 보고
+
+#### 수동 배포
+
+```bash
+cd ~/.cardnews-skill
+
+# 1) Dry-run (업로드만, 게시 X — 검증용)
+node shared/publish.js episodes/20260421_example --dry-run
+
+# 2) 실제 배포 (인라인 캡션)
+node shared/publish.js episodes/20260421_example --caption "카드뉴스 캡션\n\n#해시태그1 #해시태그2"
+
+# 3) 캡션 파일 사용
+echo "카드뉴스 캡션 본문..." > episodes/20260421_example/caption.txt
+node shared/publish.js episodes/20260421_example --caption-file episodes/20260421_example/caption.txt
+```
+
+---
+
+### 배포 제약사항
+
+| 항목 | 제한 |
+|------|------|
+| 캐러셀 최대 장수 | **10장** (그 이하) |
+| 이미지 비율 | 1:1, 1.91:1, 4:5 권장 (본 스킬은 4:5) |
+| 이미지 크기 | 최대 8MB / 장 |
+| 계정당 게시 | **시간당 25회** |
+| Access Token | **60일 유효** (만료 시 재발급) |
+| 캡션 길이 | 2,200자 / 해시태그 30개 이내 |
+
+---
+
+### 문제 해결 (Instagram 관련)
+
+| 증상 | 원인 | 해결 |
+|------|------|------|
+| `Invalid OAuth 2.0 Access Token` | 토큰 만료 | Graph API Explorer 에서 재발급 + Extend |
+| `The user is not an Instagram Business` | 개인 계정 | Business/Creator 로 전환 |
+| `Permissions error: instagram_content_publish` | 권한 미승인 | App Review 에서 권한 요청 또는 Dev Mode 테스트 사용자 추가 |
+| `Image URL is not accessible` | 이미지 URL 비공개 | 퍼블릭 URL 확인 (Imgur 또는 CDN) |
+| `Media not published yet` | 컨테이너 처리 중 | 2~3초 대기 후 재시도 (script 내부에서 자동 폴링) |
+
+---
+
 ## 수동 사용 (스킬 없이)
 
 스킬 호출 없이 직접 사용도 가능합니다:

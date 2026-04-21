@@ -248,14 +248,59 @@ node screenshot.js
 
 ---
 
-## Phase 5: 결과 보고
+## Phase 5: Instagram 배포 (선택)
 
-캡처 완료 후 다음을 사용자에게 보고한다:
+사용자가 **"인스타에 올려줘" / "배포해줘" / "publish"** 등의 요청을 추가로 할 때만 수행한다.
+
+### 사전 확인
+
+1. `$CARDNEWS_HOME/.env` 파일에 아래 환경 변수가 있는지 확인:
+   - `IG_USER_ID`
+   - `IG_ACCESS_TOKEN`
+   - `IMGUR_CLIENT_ID` (또는 `IMAGE_BASE_URL`)
+2. 없으면 사용자에게 **README의 "Instagram 배포 준비" 섹션**을 안내하고 중단
+
+### 캡션 작성
+
+배포 전에 반드시 캡션(게시글 본문)을 제안하고 사용자 승인을 받는다:
+
+- 첫 줄: 카드 제목 · 핵심 메시지
+- 본문: 2~4줄, 훅(hook) → 요약 → 호출 (CTA)
+- 마지막: 해시태그 8~15개 (#카드뉴스 #인스타그램 #주제별)
+
+승인된 캡션은 `episodes/YYYYMMDD_슬러그/caption.txt` 에 저장.
+
+### 배포 실행
+
+```bash
+cd $CARDNEWS_HOME
+node shared/publish.js episodes/YYYYMMDD_슬러그
+# 또는
+node shared/publish.js episodes/YYYYMMDD_슬러그 --caption-file episodes/YYYYMMDD_슬러그/caption.txt
+```
+
+**검증 단계**:
+1. 먼저 `--dry-run` 플래그로 실행 → 이미지 업로드만 확인
+2. 문제없으면 플래그 제거하고 실제 배포
+
+### 주의사항
+
+- Instagram API 속도 제한: **시간당 25회 게시** (계정당)
+- Access Token이 만료되면(60일) `IG_ACCESS_TOKEN` 재발급 필요
+- 배포 후 Instagram에서 즉시 반영되지 않을 수 있음 (최대 2~3분)
+- Imgur 링크는 영구적이지만, 삭제되면 IG 게시물 이미지 유실 가능 → 장기 보관 필요 시 자체 CDN 권장
+
+---
+
+## Phase 6: 결과 보고
+
+캡처·배포 완료 후 다음을 사용자에게 보고한다:
 
 1. 생성된 카드 수와 각 카드의 유형·셰이더
 2. 이미지 저장 경로: `episodes/YYYYMMDD_슬러그/images/`
-3. 액센트 컬러 변경 방법 안내
-4. 시각 검증이 필요하면 첫 1~2장 이미지를 Read로 확인
+3. (배포 수행 시) Instagram Media ID 및 확인 안내
+4. 액센트 컬러 변경 방법 안내
+5. 시각 검증이 필요하면 첫 1~2장 이미지를 Read로 확인
 
 ---
 
