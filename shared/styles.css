@@ -1,0 +1,178 @@
+/* ============================================================
+   Cardnews Minimal Design System
+   - White base + single accent color
+   - Helvetica Neue, flat (no gradient on text)
+   - Graphic zone / text zone 완전 분리
+   ============================================================ */
+
+:root {
+  --accent: #6C63FF;
+  --ink: #111111;
+  --ink-sub: #666666;
+  --line: #E6E6E6;
+  --card-w: 1080px;
+  --card-h: 1350px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #EDEDED;
+  font-family: 'Helvetica Neue', 'Pretendard', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 40px;
+}
+
+/* ===== Card (공통) ===== */
+.card {
+  width: var(--card-w);
+  height: var(--card-h);
+  background: #FFFFFF;
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Shader Zone (그래픽 영역) ===== */
+.shader-zone {
+  position: relative;
+  width: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.shader-zone canvas.shader {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Text Zone (텍스트 영역) — 완전 분리, 순백 배경 ===== */
+.text-zone {
+  background: #FFFFFF;
+  padding: 72px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+
+/* ===== 한국어 줄바꿈 방지 ===== */
+.keep-all { word-break: keep-all; }
+
+/* ===== 타이포그래피 (flat, no gradient) ===== */
+.eyebrow {
+  font-size: 20px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 28px;
+}
+.title {
+  font-size: 72px; font-weight: 700; line-height: 1.1;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 28px; word-break: keep-all;
+}
+.title .accent { color: var(--accent); }
+.subtitle {
+  font-size: 28px; font-weight: 400; line-height: 1.55;
+  color: var(--ink-sub); word-break: keep-all;
+}
+.body-text {
+  font-size: 30px; font-weight: 400; line-height: 1.7;
+  color: var(--ink); word-break: keep-all;
+}
+
+/* ===== 포인트 넘버 (큰 숫자) ===== */
+.point-num {
+  font-size: 140px; font-weight: 700; line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  margin-bottom: 12px;
+}
+
+/* ===== 리스트 ===== */
+.list { display: flex; flex-direction: column; gap: 28px; }
+.list-row { display: flex; align-items: baseline; gap: 24px; }
+.list-row .idx {
+  font-size: 22px; font-weight: 700; color: var(--accent);
+  letter-spacing: 0.08em; flex-shrink: 0; width: 48px;
+}
+.list-row .txt {
+  font-size: 28px; font-weight: 500; line-height: 1.5;
+  color: var(--ink); word-break: keep-all;
+}
+
+/* ===== Quote ===== */
+.quote {
+  border-left: 4px solid var(--accent);
+  padding-left: 32px;
+  margin: 16px 0;
+}
+.quote p {
+  font-size: 34px; font-weight: 500; line-height: 1.5;
+  color: var(--ink); word-break: keep-all;
+}
+.quote cite {
+  display: block; margin-top: 20px;
+  font-size: 20px; font-style: normal; font-weight: 500;
+  color: var(--ink-sub); letter-spacing: 0.06em;
+}
+
+/* ===== Header / Footer ===== */
+.card-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 40px 80px 0;
+}
+.card-head .brand {
+  font-size: 20px; font-weight: 700; letter-spacing: 0.12em;
+  color: var(--ink); text-transform: uppercase;
+}
+.card-head .num {
+  font-size: 18px; font-weight: 500; letter-spacing: 0.08em;
+  color: var(--ink-sub);
+}
+.card-foot {
+  padding: 0 80px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+  margin-top: auto;
+}
+.card-foot .handle {
+  font-size: 18px; font-weight: 500; color: var(--ink-sub); letter-spacing: 0.04em;
+}
+.card-foot .tag {
+  font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: 0.04em;
+}
+
+/* ===== Cover (풀블리드 셰이더) ===== */
+.card.cover .shader-zone { height: 60%; }
+.card.cover .text-zone {
+  padding: 80px;
+  background: #FFFFFF;
+}
+
+/* ===== CTA (액센트 풀블리드) ===== */
+.card.cta {
+  background: var(--accent);
+  color: #FFFFFF;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 80px;
+}
+.card.cta .cta-title {
+  font-size: 68px; font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.02em; margin-bottom: 28px; word-break: keep-all;
+}
+.card.cta .cta-desc {
+  font-size: 28px; font-weight: 400; line-height: 1.55;
+  color: rgba(255,255,255,0.85); margin-bottom: 56px;
+  max-width: 780px; word-break: keep-all;
+}
+.card.cta .cta-handles { display: flex; flex-direction: column; gap: 14px; }
+.card.cta .cta-handle {
+  font-size: 24px; font-weight: 500; color: #FFFFFF;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  padding: 14px 40px; border-radius: 999px; letter-spacing: 0.04em;
+}

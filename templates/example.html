@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080" />
+  <title>Cardnews — WebGL Minimal Template</title>
+  <link rel="stylesheet" href="../shared/styles.css" />
+</head>
+<body>
+
+  <!-- 카드 01: COVER (shader top, text bottom) -->
+  <div class="card cover" id="card-01">
+    <div class="shader-zone" style="height: 60%;">
+      <canvas class="shader" data-shader="orb" data-accent="#6C63FF" data-seed="0.32"></canvas>
+    </div>
+    <div class="text-zone">
+      <div class="eyebrow">Tech Brief · 2026</div>
+      <h1 class="title keep-all">미니멀 디자인의<br><span class="accent">새로운 기준</span></h1>
+      <p class="subtitle keep-all">흰 여백, 하나의 액센트, 그리고 의미 있는 도형. 카드 뉴스의 기본을 다시 씁니다.</p>
+    </div>
+  </div>
+
+  <!-- 카드 02: 포인트 스타일 (shader side, text main) -->
+  <div class="card" id="card-02">
+    <div class="card-head">
+      <span class="brand">Brand</span>
+      <span class="num">02 / 07</span>
+    </div>
+    <div class="shader-zone" style="height: 320px;">
+      <canvas class="shader" data-shader="ring" data-accent="#6C63FF" data-seed="0.18"></canvas>
+    </div>
+    <div class="text-zone">
+      <div class="point-num">01</div>
+      <h2 class="title keep-all">흰 여백이<br><span class="accent">메시지다</span></h2>
+      <p class="body-text keep-all">시선을 뺏지 않는 배경. 그래픽과 텍스트의 물리적 분리로 가독성을 최우선으로 둡니다.</p>
+    </div>
+    <div class="card-foot">
+      <span class="handle">@brand_handle</span>
+      <span class="tag">#minimal</span>
+    </div>
+  </div>
+
+  <!-- 카드 03: 리스트 스타일 -->
+  <div class="card" id="card-03">
+    <div class="card-head">
+      <span class="brand">Brand</span>
+      <span class="num">03 / 07</span>
+    </div>
+    <div class="shader-zone" style="height: 280px;">
+      <canvas class="shader" data-shader="mesh" data-accent="#6C63FF" data-seed="0.55"></canvas>
+    </div>
+    <div class="text-zone">
+      <h2 class="title keep-all" style="margin-bottom:40px;">3가지 <span class="accent">원칙</span></h2>
+      <div class="list">
+        <div class="list-row"><div class="idx">01</div><div class="txt keep-all">단색 — 한 가지 액센트 컬러만 사용</div></div>
+        <div class="list-row"><div class="idx">02</div><div class="txt keep-all">분리 — 그래픽과 텍스트는 섞지 않는다</div></div>
+        <div class="list-row"><div class="idx">03</div><div class="txt keep-all">의미 — 모든 도형은 맥락에 맞아야 한다</div></div>
+      </div>
+    </div>
+    <div class="card-foot">
+      <span class="handle">@brand_handle</span>
+      <span class="tag">#principles</span>
+    </div>
+  </div>
+
+  <!-- 카드 04: 통계/수치 -->
+  <div class="card" id="card-04">
+    <div class="card-head">
+      <span class="brand">Brand</span>
+      <span class="num">04 / 07</span>
+    </div>
+    <div class="shader-zone" style="height: 380px;">
+      <canvas class="shader" data-shader="line-stream" data-accent="#6C63FF" data-seed="0.67"></canvas>
+    </div>
+    <div class="text-zone">
+      <div class="eyebrow">Impact</div>
+      <h2 class="title keep-all" style="font-size:140px; line-height:1;">
+        <span class="accent">87%</span>
+      </h2>
+      <p class="body-text keep-all" style="margin-top:20px;">흰 배경 카드 뉴스의 평균 저장률 상승폭. 가독성이 곧 도달률입니다.</p>
+    </div>
+    <div class="card-foot">
+      <span class="handle">@brand_handle</span>
+      <span class="tag">#data</span>
+    </div>
+  </div>
+
+  <!-- 카드 05: 인용 -->
+  <div class="card" id="card-05">
+    <div class="card-head">
+      <span class="brand">Brand</span>
+      <span class="num">05 / 07</span>
+    </div>
+    <div class="shader-zone" style="height: 300px;">
+      <canvas class="shader" data-shader="gradient-flow" data-accent="#6C63FF" data-seed="0.41"></canvas>
+    </div>
+    <div class="text-zone">
+      <div class="quote">
+        <p class="keep-all">"디자인은 덜 하는 것이다 — 그러나 더 잘하는 것이다."</p>
+        <cite>— Dieter Rams</cite>
+      </div>
+    </div>
+    <div class="card-foot">
+      <span class="handle">@brand_handle</span>
+      <span class="tag">#quote</span>
+    </div>
+  </div>
+
+  <!-- 카드 06: 체크리스트 -->
+  <div class="card" id="card-06">
+    <div class="card-head">
+      <span class="brand">Brand</span>
+      <span class="num">06 / 07</span>
+    </div>
+    <div class="shader-zone" style="height: 280px;">
+      <canvas class="shader" data-shader="noise-field" data-accent="#6C63FF" data-seed="0.72"></canvas>
+    </div>
+    <div class="text-zone">
+      <h2 class="title keep-all" style="margin-bottom:36px;">체크리스트</h2>
+      <div class="list">
+        <div class="list-row"><div class="idx">✓</div><div class="txt keep-all">배경은 흰색인가?</div></div>
+        <div class="list-row"><div class="idx">✓</div><div class="txt keep-all">액센트는 단 하나인가?</div></div>
+        <div class="list-row"><div class="idx">✓</div><div class="txt keep-all">텍스트 영역이 그래픽과 분리되었는가?</div></div>
+        <div class="list-row"><div class="idx">✓</div><div class="txt keep-all">도형이 맥락에 맞는가?</div></div>
+      </div>
+    </div>
+    <div class="card-foot">
+      <span class="handle">@brand_handle</span>
+      <span class="tag">#checklist</span>
+    </div>
+  </div>
+
+  <!-- 카드 07: CTA -->
+  <div class="card cta" id="card-07">
+    <h2 class="cta-title keep-all">더 많은 인사이트,<br>매주 받아보기</h2>
+    <p class="cta-desc keep-all">디자인·기술 트렌드를 한 장에 담아 전달합니다.</p>
+    <div class="cta-handles">
+      <div class="cta-handle">Instagram @brand_handle</div>
+      <div class="cta-handle">YouTube @brand_channel</div>
+    </div>
+  </div>
+
+  <script src="../shared/shaders.js"></script>
+  <script>
+    window.addEventListener('load', () => { CardShaders.renderAll(); });
+  </script>
+</body>
+</html>

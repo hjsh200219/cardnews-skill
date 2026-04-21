@@ -1,0 +1,19 @@
+node_modules/
+package-lock.json
+
+# 에피소드 생성물 (사용자별로 다름)
+episodes/*/
+!episodes/.gitkeep
+
+# Claude Code / OMC 세션 파일
+.claude/
+.omc/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
