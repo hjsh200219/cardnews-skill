@@ -155,7 +155,8 @@ cardnews-skill/
 ├── shared/
 │   ├── styles.css         ← 화이트 베이스 + 액센트 1색
 │   ├── shaders.js         ← WebGL 셰이더 6종
-│   └── screenshot.js      ← Playwright 캡처
+│   ├── screenshot.js      ← Playwright 캡처
+│   └── publish.js         ← Instagram Graph API 캐러셀 발행
 ├── templates/
 │   └── example.html       ← 7장 레퍼런스 (모든 셰이더 사용 예)
 └── episodes/              ← 사용자별 결과물 (gitignore)
